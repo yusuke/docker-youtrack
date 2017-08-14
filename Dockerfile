@@ -1,11 +1,14 @@
-FROM dzwicker/docker-ubuntu:latest
-MAINTAINER email@daniel-zwicker.de
+FROM openjdk:8-jdk-alpine
+MAINTAINER yusuke@samuraism.com
 
 # add our user and group first to make sure their IDs get assigned consistently, regardless of whatever dependencies get added
 RUN \
+    apk add --update curl && \
+    apk add --update bash && \
+    rm -rf /var/cache/apk/* && \
     mkdir -p /var/lib/youtrack && \
-    groupadd --gid 2000 youtrack && \
-    useradd --system -d /var/lib/youtrack --uid 2000 --gid youtrack youtrack && \
+    addgroup -g 2000 -S youtrack && \
+    adduser -S -D -u 2000 -G youtrack youtrack && \
     chown -R youtrack:youtrack /var/lib/youtrack
 
 ######### Install hub ###################
