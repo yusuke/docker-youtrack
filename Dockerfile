@@ -6,33 +6,33 @@ RUN \
     apk add --update curl && \
     apk add --update bash && \
     rm -rf /var/cache/apk/* && \
-    mkdir -p /var/lib/youtrack && \
-    addgroup -g 2000 -S youtrack && \
-    adduser -S -D -u 2000 -G youtrack youtrack && \
-    chown -R youtrack:youtrack /var/lib/youtrack
+    mkdir -p /var/lib/hub && \
+    addgroup -g 2000 -S hub && \
+    adduser -S -D -u 2000 -G hub hub && \
+    chown -R hub:hub /var/lib/hub
 
 ######### Install hub ###################
 COPY entry-point.sh /entry-point.sh
 
 RUN \
-    export YOUTRACK_VERSION=2017.3 && \
-    export YOUTRACK_BUILD=35488 && \
-    mkdir -p /usr/local && \
-    mkdir -p /var/lib/youtrack && \
+    export HUB_VERSION=2017.3 && \
+    export HUB_BUILD=6757 && \
+    mkdir -p /usr/local/hub/backups && \
+    mkdir -p /var/lib/hub && \
     cd /usr/local && \
-    echo "$YOUTRACK_VERSION" > version.docker.image && \
-    curl -L https://download.jetbrains.com/charisma/youtrack-${YOUTRACK_VERSION}.${YOUTRACK_BUILD}.zip > youtrack.zip && \
-    unzip youtrack.zip && \
-    mv /usr/local/youtrack-${YOUTRACK_VERSION}.${YOUTRACK_BUILD} /usr/local/youtrack && \
-    rm -f youtrack.zip && \
-    rm -rf /usr/local/youtrack/internal/java/linux-x64/man && \
-    rm -rf /usr/local/youtrack/internal/java/mac-x64 && \
-    rm -rf /usr/local/youtrack/internal/java/windows-amd64 && \
-    chown -R youtrack:youtrack /usr/local/youtrack && \
-    chmod -R u+rwxX /usr/local/youtrack/internal/java/linux-x64
+    echo "$HUB_VERSION" > version.docker.image && \
+    curl -L https://download.jetbrains.com/hub/${HUB_VERSION}/hub-ring-bundle-${HUB_VERSION}.${HUB_BUILD}.zip > hub.zip && \
+    unzip hub.zip && \
+    mv /usr/local/hub-ring-bundle-${HUB_VERSION}.${HUB_BUILD} /usr/local/hub && \
+    rm -f hub.zip && \
+    rm -rf /usr/local/hub/internal/java/linux-x64/man && \
+    rm -rf /usr/local/hub/internal/java/mac-x64 && \
+    rm -rf /usr/local/hub/internal/java/windows-amd64 && \
+    chown -R hub:hub /usr/local/hub && \
+    chmod -R u+rwxX /usr/local/hub/internal/java/linux-x64
 
-USER youtrack
-ENV HOME=/var/lib/youtrack
+USER hub
+ENV HOME=/var/lib/hub
 EXPOSE 8080
 ENTRYPOINT ["/entry-point.sh"]
 CMD ["run"]

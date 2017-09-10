@@ -1,5 +1,5 @@
 #!/bin/bash -e
 
-exec /usr/local/youtrack/bin/youtrack.sh "$@"
+exec /usr/local/hub/bin/hub.sh "$@"
 
 
