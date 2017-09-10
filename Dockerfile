@@ -17,13 +17,13 @@ COPY entry-point.sh /entry-point.sh
 RUN \
     export HUB_VERSION=2017.3 && \
     export HUB_BUILD=6757 && \
-    mkdir -p /usr/local/hub/backups && \
     mkdir -p /var/lib/hub && \
     cd /usr/local && \
     echo "$HUB_VERSION" > version.docker.image && \
     curl -L https://download.jetbrains.com/hub/${HUB_VERSION}/hub-ring-bundle-${HUB_VERSION}.${HUB_BUILD}.zip > hub.zip && \
     unzip hub.zip && \
     mv /usr/local/hub-ring-bundle-${HUB_VERSION}.${HUB_BUILD} /usr/local/hub && \
+    mkdir -p /usr/local/hub/backups && \
     rm -f hub.zip && \
     rm -rf /usr/local/hub/internal/java/linux-x64/man && \
     rm -rf /usr/local/hub/internal/java/mac-x64 && \
